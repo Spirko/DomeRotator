@@ -3,11 +3,11 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import serial.tools.list_ports as lp
 
-class ComPortSelector(tk.Tk):
-  def __init__(self):
-    super().__init__()
+class ComPortSelector(tk.Frame):
+  def __init__(self, master=None, **kwargs):
+    super().__init__(master, **kwargs)
     
-    self.title('Select COM port')
+    self.pack()
     
     self.label = ttk.Label(self, text='Select COM port:')
     self.label.pack(pady=10)
@@ -16,6 +16,7 @@ class ComPortSelector(tk.Tk):
     self.combobox.pack(pady=10)
     
     self.get_ports()
+    self.combobox.current(0)
     
   def get_ports(self):
     ports = lp.comports()
@@ -25,7 +26,18 @@ class ComPortSelector(tk.Tk):
       
     self.combobox['values'] = port_list
     
+def print_choice(label, combobox):
+  choice = combobox.get()
+  print(f"{label}: {choice}")
+
+
     
 if __name__ == "__main__":
-  app = ComPortSelector()
+  app = tk.Tk()
+  app.title('Com port selector test')
+  
+  com = ComPortSelector()
+  com.combobox.bind("<<ComboboxSelected>>", 
+                    lambda arg:
+                    print_choice("Selected Com:", com.combobox))
   app.mainloop()
