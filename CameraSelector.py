@@ -16,6 +16,7 @@ class CameraSelector(tk.Frame):
     self.combobox = ttk.Combobox(self, state='readonly')
     self.combobox.pack(pady=10)
     self.detect_cameras()
+    self.combobox.current(0)
     
   def detect_cameras(self):
     available_cameras = []
@@ -32,7 +33,6 @@ class CameraSelector(tk.Frame):
       available_cameras.append("No cameras found")
       
     self.combobox['values'] = available_cameras
-    self.combobox.current(0)
 
 def print_choice(combobox):
   selected_camera = combobox.get()
