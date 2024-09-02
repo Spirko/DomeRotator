@@ -10,10 +10,10 @@ class ComPortSelector(tk.Frame):
     self.pack()
     
     self.label = ttk.Label(self, text='Select COM port:')
-    self.label.pack(pady=10)
+    self.label.pack(side=tk.LEFT)
     
     self.combobox = ttk.Combobox(self, state='readonly')
-    self.combobox.pack(pady=10)
+    self.combobox.pack(side=tk.LEFT)
     
     self.get_ports()
     self.combobox.current(0)
