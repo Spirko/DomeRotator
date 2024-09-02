@@ -8,7 +8,7 @@ class CameraSelector(tk.Frame):
   def __init__(self, master=None, **kwargs):
     super().__init__(master, **kwargs)
     
-    self.pack()
+    # self.pack()
         
     self.label = ttk.Label(self, text='Select Camera:')
     self.label.pack(side=tk.LEFT)
@@ -19,20 +19,25 @@ class CameraSelector(tk.Frame):
     self.combobox.current(0)
     
   def detect_cameras(self):
+    print('detecting cameras')
     available_cameras = []
     
     for i in itertools.count(start=0):
-      cap = cv2.VideoCapture(i)
-      if cap.isOpened():
-        available_cameras.append(f'Camera {i}')
-        cap.release()
-      else:
+      try:
+        cap = cv2.VideoCapture(i)
+        if cap.isOpened():
+          available_cameras.append(f'Camera {i}')
+          cap.release()
+        else:
+          break
+      except:
         break
     
     if not available_cameras:
       available_cameras.append("No cameras found")
       
     self.combobox['values'] = available_cameras
+    print('done detecting cameras')
 
 def print_choice(combobox):
   selected_camera = combobox.get()
@@ -43,5 +48,6 @@ if __name__ == "__main__":
   app.title('Camera Selector test')
   
   cam = CameraSelector(app)
+  cam.pack()
   cam.combobox.bind("<<ComboboxSelected>>", lambda arg: print_choice(cam.combobox))
   app.mainloop()

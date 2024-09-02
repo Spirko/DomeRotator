@@ -7,8 +7,6 @@ class ComPortSelector(tk.Frame):
   def __init__(self, master=None, **kwargs):
     super().__init__(master, **kwargs)
     
-    self.pack()
-    
     self.label = ttk.Label(self, text='Select COM port:')
     self.label.pack(side=tk.LEFT)
     
@@ -37,6 +35,7 @@ if __name__ == "__main__":
   app.title('Com port selector test')
   
   com = ComPortSelector()
+  com.pack()
   com.combobox.bind("<<ComboboxSelected>>", 
                     lambda arg:
                     print_choice("Selected Com:", com.combobox))

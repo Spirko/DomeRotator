@@ -10,12 +10,13 @@ class CameraDisplay(tk.Frame):
     
     self.camera_index = camera_index
     
-    self.pack(fill=tk.BOTH, expand=True)
+    # self.pack(fill=tk.BOTH, expand=True)
     
     # The image goes into a Label.
     self.video_label = tk.Label(self)
     self.video_label.pack(fill=tk.BOTH, expand=True)
-    
+  
+    print(f'Connecting to camera {self.camera_index}')  
     self.cap = cv2.VideoCapture(self.camera_index)
     self.update_frame()
   
@@ -50,4 +51,5 @@ if __name__ == "__main__":
   app.title('Camera Display Test')
   app.geometry('800x600')
   frm = CameraDisplay(master=app)
+  frm.pack(fill=tk.BOTH, expand=True)
   app.mainloop()
