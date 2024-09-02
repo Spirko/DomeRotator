@@ -11,10 +11,10 @@ class CameraSelector(tk.Frame):
     self.pack()
         
     self.label = ttk.Label(self, text='Select Camera:')
-    self.label.pack(pady=10)
+    self.label.pack(side=tk.LEFT)
     
     self.combobox = ttk.Combobox(self, state='readonly')
-    self.combobox.pack(pady=10)
+    self.combobox.pack(side=tk.LEFT)
     self.detect_cameras()
     self.combobox.current(0)
     
