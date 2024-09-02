@@ -18,7 +18,7 @@ class CameraDisplay(tk.Frame):
     
     self.cap = cv2.VideoCapture(self.camera_index)
     self.update_frame()
-    
+  
   def update_frame(self):
     ret, frame = self.cap.read()
     if ret:
@@ -32,6 +32,14 @@ class CameraDisplay(tk.Frame):
       self.video_label.configure(image=imgtk)
       
     self.master.after(10, self.update_frame)
+  
+  def set_camera(index):
+    if self.cap.isOpened():
+      self.cap.release()
+      
+    self.camera_index = index
+    
+    self.cap = cv2.VideoCapture(self.camera_index)
     
   def __del__(self):
     if self.cap.isOpened():
