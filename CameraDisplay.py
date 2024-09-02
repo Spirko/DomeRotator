@@ -5,7 +5,7 @@ import PIL.Image as Image
 import PIL.ImageTk as ImageTk
 
 class CameraDisplay(tk.Frame):
-  def __init__(self, master=None, camera_index=0, **kwargs):
+  def __init__(self, master=None, camera_index=None, **kwargs):
     super().__init__(master, **kwargs)
     
     self.camera_index = camera_index
@@ -15,10 +15,19 @@ class CameraDisplay(tk.Frame):
     # The image goes into a Label.
     self.video_label = tk.Label(self)
     self.video_label.pack(fill=tk.BOTH, expand=True)
-  
-    print(f'Connecting to camera {self.camera_index}')  
+
+
+  def connect(camera_index=None):
+    if self.cap is not None and self.cap.isOpened():
+      self.cap.release()
+      
+    self.camera_index = camera_index
+    if camera_index is not None:
+      print(f'Connecting to camera {self.camera_index}')  
+      self.cap = cv2.VideoCapture(self.camera_index)
+      self.update_frame()
+    
     self.cap = cv2.VideoCapture(self.camera_index)
-    self.update_frame()
   
   def update_frame(self):
     ret, frame = self.cap.read()
@@ -32,15 +41,10 @@ class CameraDisplay(tk.Frame):
       self.video_label.imgtk = imgtk
       self.video_label.configure(image=imgtk)
       
-    self.master.after(10, self.update_frame)
+      self.master.after(10, self.update_frame)
   
   def set_camera(index):
-    if self.cap.isOpened():
-      self.cap.release()
       
-    self.camera_index = index
-    
-    self.cap = cv2.VideoCapture(self.camera_index)
     
   def __del__(self):
     if self.cap.isOpened():
