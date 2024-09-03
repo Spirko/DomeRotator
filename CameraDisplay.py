@@ -43,8 +43,6 @@ class CameraDisplay(tk.Frame):
       
       self.master.after(10, self.update_frame)
   
-  def set_camera(index):
-      
     
   def __del__(self):
     if self.cap.isOpened():

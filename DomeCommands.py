@@ -24,7 +24,7 @@ class DomeCommands(ttk.Frame):
       button = ttk.Button(self, text=btn_info['label'])
       button.bind('<ButtonPress-1>', lambda e,s=btn_info['press']: self.send_command(s))
       button.bind('<ButtonRelease-1>', lambda e,s='ASL 0': self.send_command(s))
-      button.pack(side=tk.LEFT, padx=5, pady=5)
+      button.pack(side=tk.LEFT, anchor='center', padx=5, pady=5)
       
   def send_command(self, command):
     data = f'\n{command}\n'
@@ -51,7 +51,7 @@ if __name__ == '__main__':
   root.title('Serial Button test')
   root.geometry('300x100')
 
-  frm = DomeCommands(master=root)
+  frm = DomeCommands(master=root,port='COM5')
   frm.pack()
 
   root.mainloop()

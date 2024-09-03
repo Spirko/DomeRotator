@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from ComPortSelector import ComPortSelector
 from CameraSelector import CameraSelector
-from CameraDisplay import CameraDisplay
+from CameraDisplay2 import CameraDisplay
 
 class DomeRotator(tk.Tk):
   def __init__(self, **kwargs):
