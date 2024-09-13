@@ -2,7 +2,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from ComPortSelector import ComPortSelector
 from CameraSelector import CameraSelector
-from CameraDisplay import CameraDisplay
+from CameraDisplay2 import CameraDisplay
+from DomeCommands import DomeCommands
 
 class DomeRotator(tk.Tk):
   def __init__(self, **kwargs):
@@ -24,17 +25,27 @@ class DomeRotator(tk.Tk):
     self.cam = CameraSelector(self.cfg_frm)
     self.cam.pack(side=tk.LEFT, padx=20)
     
-    
   def make_camera_frame(self):
     self.cam_frm = ttk.Frame(master=self)
     self.cam_frm.pack(expand=True)
     
-    self.disp = CameraDisplay()
+    self.disp = CameraDisplay(master=self.cam_frm)
     self.disp.pack(fill=tk.BOTH, expand=True)
+    
+    self.cam.connect = lambda : \
+      self.disp.connect(int(self.cam.combobox.current()))
+    self.cam.disconnect = lambda : \
+      self.disp.disconnect()
     
   def make_command_frame(self):
     self.cmd_frm = ttk.Frame(master=self)
     self.cmd_frm.pack(expand=True)
+
+    self.dome = DomeCommands(self.cmd_frm)
+    self.dome.pack()
+  
+    self.com.combobox.bind("<<ComboboxSelected>>", 
+        lambda arg: self.dome.open(self.com.combobox.get()))
 
         
 if __name__ == "__main__":

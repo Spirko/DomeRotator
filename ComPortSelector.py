@@ -18,9 +18,10 @@ class ComPortSelector(tk.Frame):
     
   def get_ports(self):
     ports = lp.comports()
-    port_list = [port.device for port in ports]
-    if not port_list:
-      port_list = 'None found'
+    port_list = [ 'None' ]
+    port_list += [port.device for port in ports]
+    # if not port_list:
+    #   port_list = 'None found'
       
     self.combobox['values'] = port_list
     

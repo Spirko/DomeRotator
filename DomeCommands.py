@@ -3,13 +3,12 @@ import tkinter.ttk as ttk
 import serial
 
 class DomeCommands(ttk.Frame):
-  def __init__(self, master=None, ser=None, port=None, **kwargs):
+  def __init__(self, master=None, ser=None, port=None, baudrate=19200, **kwargs):
     super().__init__(master, **kwargs)
     
-    if ser is not None:
-      self.ser = ser
-    else:
-      self.open_serial(port)
+    self.ser = ser
+    if self.ser is None:
+      self.open(port=port, baudrate=baudrate)
 
     # When sent, each command should be preceeded and followed by \n
     # This is handled by send_command()
@@ -37,14 +36,23 @@ class DomeCommands(ttk.Frame):
     else:
       print(f'Command to serial: {command}')
 
-  def open_serial(self, port='COM3', baudrate=9600):
+  def open(self, port=None, baudrate=19200):
+    if port is None or port == 'None':
+      if self.ser is not None:
+        self.ser.close()
+        self.ser = None
+      return
+      
     try:
-      self.ser = serial.Serial(port, baudrate, timeout=1)
+      self.ser = serial.Serial(port, baudrate, timeout=1, write_timeout=2)
       print(f'Connected to {port} at {baudrate} baud.')
     except serial.SerialException as e:
       print('Connecting to stdout.')
       self.ser = None
 
+  def close(self):
+    self.ser.close()
+    self.ser = None
 
 if __name__ == '__main__':
   root = tk.Tk()
