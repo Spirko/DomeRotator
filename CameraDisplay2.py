@@ -1,7 +1,12 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import os, sys
+
+import warnings
+warnings.simplefilter('ignore')
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
+warnings.resetwarnings()
 import cv2
 
 class CameraDisplay(tk.Frame):

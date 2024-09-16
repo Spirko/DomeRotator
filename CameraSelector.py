@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import cv2
 import itertools
+import warnings
 
 class CameraSelector(tk.Frame):
   def __init__(self, master=None, **kwargs):
@@ -53,15 +54,19 @@ class CameraSelector(tk.Frame):
     for i in itertools.count(start=0):
       try:
         print(f'trying camera {i}')
+        warnings.simplefilter('ignore')
         cap = cv2.VideoCapture(i, cv2.CAP_DSHOW)
-        print(f'Maybe connected.')
+        warnings.resetwarnings()
+        # print(f'Maybe connected.')
         if cap.isOpened():
           print(f'Camera works.')
           available_cameras.append(f'Camera {i}')
           cap.release()
         else:
+          cap.release()
           break
       except:
+        cap.release()
         break
     
     if not available_cameras:
